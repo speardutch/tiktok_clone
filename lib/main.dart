@@ -7,6 +7,7 @@ import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interest_screen.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
+import 'package:flutter_gen/gen_l10n/intl_generated.dart';
 
 void main() {
   runApp(const TikTokApp());
@@ -22,6 +23,7 @@ class TikTokApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -88,7 +90,7 @@ class TikTokApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const SettingsScreen(),
+      home: const SignUpScreen(),
     );
   }
 }
