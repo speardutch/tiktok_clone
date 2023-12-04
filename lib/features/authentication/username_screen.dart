@@ -14,7 +14,7 @@ class UsernameScreen extends StatefulWidget {
 
 class _UsernameScreenState extends State<UsernameScreen> {
   final TextEditingController _usernameController = TextEditingController();
-  String username = "";
+  String _username = "";
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
 
     _usernameController.addListener(() {
       setState(() {
-        username = _usernameController.text;
+        _username = _usernameController.text;
       });
     });
   }
@@ -34,9 +34,12 @@ class _UsernameScreenState extends State<UsernameScreen> {
   }
 
   void _onNextTap() {
-    if (username.isEmpty) return;
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const EmailScreen()));
+    if (_username.isEmpty) return;
+    Navigator.pushNamed(
+      context,
+      EmailScreen.routeName,
+      arguments: EmailScreenArgs(username: _username),
+    );
   }
 
   @override
@@ -78,7 +81,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
             Gaps.v16,
             GestureDetector(
                 onTap: _onNextTap,
-                child: FormButton(disabled: username.isEmpty))
+                child: FormButton(disabled: _username.isEmpty))
           ],
         ),
       ),
