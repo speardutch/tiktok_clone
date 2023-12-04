@@ -3,5 +3,8 @@
   "signUpSubtitle": "Create a profile, follow other accounts, make your own videos, and more.",
   "emailPasswordButton": "Use email or password",
   "appleButton": "Continue with Apple",
-  "logIn": "Log in"
+  "logIn": "Log in",
+  "likeCount": "{potatoe}",
+  "commentCount": "{potatoe}",
+  "commentTitle": "{value} {value2, plural, =1{comment} other{comments}}"
 }

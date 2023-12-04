@@ -22,5 +22,35 @@
   "signUpSubtitle": "Create a profile, follow other accounts, make your own {videoCount, plural, =0{no video} =1{video} other{videos}}, and more.",
   "emailPasswordButton": "Use email or password",
   "appleButton": "Continue with Apple",
-  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}"
+  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}",
+  "likeCount": "{potatoe}",
+  "@likeCount": {
+    "description": "The title people see when they open the app for the log in screen",
+    "placeholders": {
+      "potatoe": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "commentCount": "{potatoe}",
+  "@commentCount": {
+    "description": "The title people see when they open the app for the log in screen",
+    "placeholders": {
+      "potatoe": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "commentTitle": "{value} {value2, plural, =1{comment} other{comments}}",
+  "@commentTitle": {
+    "description": "The title people see when they open the app for the log in screen",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  }
 }

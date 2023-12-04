@@ -109,6 +109,51 @@ class S {
       args: [gender],
     );
   }
+
+  /// `{potatoe}`
+  String likeCount(int potatoe) {
+    final NumberFormat potatoeNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String potatoeString = potatoeNumberFormat.format(potatoe);
+
+    return Intl.message(
+      '$potatoeString',
+      name: 'likeCount',
+      desc: 'The title people see when they open the app for the log in screen',
+      args: [potatoeString],
+    );
+  }
+
+  /// `{potatoe}`
+  String commentCount(int potatoe) {
+    final NumberFormat potatoeNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String potatoeString = potatoeNumberFormat.format(potatoe);
+
+    return Intl.message(
+      '$potatoeString',
+      name: 'commentCount',
+      desc: 'The title people see when they open the app for the log in screen',
+      args: [potatoeString],
+    );
+  }
+
+  /// `{value} {value2, plural, =1{comment} other{comments}}`
+  String commentTitle(int value, num value2) {
+    final NumberFormat valueNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String valueString = valueNumberFormat.format(value);
+
+    return Intl.message(
+      '$valueString ${Intl.plural(value2, one: 'comment', other: 'comments')}',
+      name: 'commentTitle',
+      desc: 'The title people see when they open the app for the log in screen',
+      args: [valueString, value2],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
