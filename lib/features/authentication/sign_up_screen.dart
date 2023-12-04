@@ -12,10 +12,11 @@ import 'widgets/auth_button.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
-  void _onLoginTap(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
+  void _onLoginTap(BuildContext context) async {
+    final result = await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const LoginScreen(),
     ));
+    print(result);
   }
 
   void _onEmailTap(BuildContext context) {
