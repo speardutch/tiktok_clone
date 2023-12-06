@@ -11,6 +11,7 @@ import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dar
 import 'package:tiktok_clone/features/onboarding/interest_screen.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
+import 'package:tiktok_clone/router.dart';
 
 void main() {
   runApp(const TikTokApp());
@@ -23,7 +24,8 @@ class TikTokApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //S.load(const Locale("en"));
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
       localizationsDelegates: const [
@@ -93,13 +95,6 @@ class TikTokApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: SignUpScreen.routeName,
-      routes: {
-        SignUpScreen.routeName: (context) => const SignUpScreen(),
-        UsernameScreen.routeName: (context) => const UsernameScreen(),
-        LoginScreen.routeName: (context) => const LoginScreen(),
-        EmailScreen.routeName: (context) => const EmailScreen(),
-      },
     );
   }
 }
