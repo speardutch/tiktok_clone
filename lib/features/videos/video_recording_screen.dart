@@ -13,19 +13,30 @@ class VideoRecordingScreen extends StatefulWidget {
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   bool _hasPermission = false;
+  bool _isSelfieMode = true;
   late final CameraController _cameraController;
+  late final CameraController _cameraControllerSelfie;
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
     if (cameras.isEmpty) {
       return;
     }
-
+    print("11111");
     _cameraController =
         CameraController(cameras[0], ResolutionPreset.ultraHigh);
-
+    _cameraControllerSelfie =
+        CameraController(cameras[1], ResolutionPreset.ultraHigh);
+    print("2222");
     await _cameraController.initialize();
-    print("1111");
+    await _cameraControllerSelfie.initialize();
+    print("33333");
+  }
+
+  Future<void> _toggleSelfieMode() async {
+    _isSelfieMode = !_isSelfieMode;
+    //await initCamera();
+    setState(() {});
   }
 
   Future<void> initPermissions() async {
@@ -73,7 +84,25 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                   CircularProgressIndicator.adaptive(),
                 ],
               )
-            : CameraPreview(_cameraController),
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  _isSelfieMode
+                      ? CameraPreview(_cameraControllerSelfie)
+                      : CameraPreview(_cameraController),
+                  Positioned(
+                    top: Sizes.size20,
+                    left: Sizes.size20,
+                    child: IconButton(
+                      color: Colors.white,
+                      onPressed: _toggleSelfieMode,
+                      icon: const Icon(
+                        Icons.cameraswitch,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
