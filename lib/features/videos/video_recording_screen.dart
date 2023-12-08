@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/video_preview_screen.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
   const VideoRecordingScreen({super.key});
@@ -14,10 +15,10 @@ class VideoRecordingScreen extends StatefulWidget {
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     with TickerProviderStateMixin {
   bool _hasPermission = false;
-  bool _isSelfieMode = true;
+  bool _isSelfieMode = false;
   late FlashMode _flashMode;
   late final CameraController _cameraController;
-  late final CameraController _cameraControllerSelfie;
+  // late final CameraController _cameraControllerSelfie;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -44,13 +45,16 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       return;
     }
 
-    _cameraController =
-        CameraController(cameras[0], ResolutionPreset.ultraHigh);
-    _cameraControllerSelfie =
-        CameraController(cameras[1], ResolutionPreset.ultraHigh);
+    _cameraController = CameraController(cameras[0], ResolutionPreset.ultraHigh,
+        enableAudio: false);
+/*     _cameraControllerSelfie = CameraController(
+        cameras[1], ResolutionPreset.ultraHigh,
+        enableAudio: false); */
 
     await _cameraController.initialize();
-    await _cameraControllerSelfie.initialize();
+    await _cameraController.prepareForVideoRecording();
+    // await _cameraControllerSelfie.initialize();
+    // await _cameraControllerSelfie.prepareForVideoRecording();
 
     _flashMode = _cameraController.value.flashMode;
   }
@@ -67,14 +71,29 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     setState(() {});
   }
 
-  void _startRecording(TapDownDetails _) {
+  Future<void> _startRecording(TapDownDetails _) async {
+    if (_cameraController.value.isRecordingVideo) return;
+    await _cameraController.startVideoRecording();
+
     _buttonAnimationController.forward();
     _progressAnimationController.forward();
   }
 
-  void _stopRecording() {
+  Future<void> _stopRecording() async {
+    if (!_cameraController.value.isRecordingVideo) return;
     _buttonAnimationController.reverse();
     _progressAnimationController.reset();
+
+    final video = await _cameraController.stopVideoRecording();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(
+          video: video,
+        ),
+      ),
+    );
   }
 
   Future<void> initPermissions() async {
@@ -110,6 +129,15 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   }
 
   @override
+  void dispose() {
+    _progressAnimationController.dispose();
+    _buttonAnimationController.dispose();
+    _cameraController.dispose();
+/*     _cameraControllerSelfie.dispose(); */
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -135,7 +163,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                 alignment: Alignment.center,
                 children: [
                   _isSelfieMode
-                      ? CameraPreview(_cameraControllerSelfie)
+                      ? CameraPreview(_cameraController)
+                      //CameraPreview(_cameraControllerSelfie)
                       : CameraPreview(_cameraController),
                   Positioned(
                     top: Sizes.size20,
