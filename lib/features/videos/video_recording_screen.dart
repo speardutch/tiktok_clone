@@ -210,6 +210,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       ? CameraPreview(_cameraController)
                       //CameraPreview(_cameraControllerSelfie)
                       : CameraPreview(_cameraController),
+                  const Positioned(
+                    top: Sizes.size40,
+                    left: Sizes.size20,
+                    child: CloseButton(
+                      color: Colors.white,
+                    ),
+                  ),
                   Positioned(
                     top: Sizes.size20,
                     right: Sizes.size20,
