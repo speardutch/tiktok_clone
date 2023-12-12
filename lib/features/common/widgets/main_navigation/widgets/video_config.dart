@@ -1,16 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
-class VideoConfig extends InheritedWidget {
-  final bool autoMute = false;
+class VideoConfig extends ChangeNotifier {
+  bool autoMute = false;
 
-  const VideoConfig({super.key, required super.child});
-
-  static VideoConfig of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<VideoConfig>()!;
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
+  void toggleAutomute() {
+    autoMute = !autoMute;
+    notifyListeners();
   }
 }
+
+final videoConfig = VideoConfig();
