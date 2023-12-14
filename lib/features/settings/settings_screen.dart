@@ -38,19 +38,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: const Text("Mute video"),
               subtitle: const Text("Videos will be muted by default."),
               activeColor: Colors.black,
-              value: context.watch<PlaybackConfigViewModel>().muted,
-              onChanged: (value) {
-                context.read<PlaybackConfigViewModel>().setMuted(value);
-              },
+              value: false,
+              onChanged: (value) {},
             ),
             SwitchListTile.adaptive(
               title: const Text("Autoplay"),
               subtitle: const Text("Videos will start playing automatically."),
               activeColor: Colors.black,
-              value: context.watch<PlaybackConfigViewModel>().autoplay,
-              onChanged: (value) {
-                context.read<PlaybackConfigViewModel>().setAutoplay(value);
-              },
+              value: false,
+              onChanged: (value) {},
             ),
             SwitchListTile.adaptive(
               title: const Text("Enable notifications"),
