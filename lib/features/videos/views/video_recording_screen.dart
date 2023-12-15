@@ -54,7 +54,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 /*     _cameraControllerSelfie = CameraController(
         cameras[1], ResolutionPreset.ultraHigh,
         enableAudio: false); */
-
+    print("asdasdasdasd");
     await _cameraController.initialize();
     await _cameraController.prepareForVideoRecording();
     // await _cameraControllerSelfie.initialize();
