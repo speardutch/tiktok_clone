@@ -2,10 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/common/widgets/main_navigation/widgets/video_config.dart';
+import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
@@ -16,9 +15,14 @@ import 'package:visibility_detector/visibility_detector.dart';
 class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
+  final VideoModel videoData;
 
-  const VideoPost(
-      {super.key, required this.onVideoFinished, required this.index});
+  const VideoPost({
+    super.key,
+    required this.onVideoFinished,
+    required this.index,
+    required this.videoData,
+  });
 
   @override
   VideoPostState createState() => VideoPostState();
@@ -138,7 +142,12 @@ class VideoPostState extends ConsumerState<VideoPost>
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: VideoPlayer(_videoPlayerController),
+                  child: _videoPlayerController.value.isInitialized
+                      ? VideoPlayer(_videoPlayerController)
+                      : Image.network(
+                          widget.videoData.thumbnailUrl,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 Positioned.fill(
                   child: GestureDetector(onTap: _onTogglePause),
@@ -177,15 +186,15 @@ class VideoPostState extends ConsumerState<VideoPost>
                         : FontAwesomeIcons.volumeHigh),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   bottom: 20,
                   left: 10,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "JS",
-                        style: TextStyle(
+                        "@${widget.videoData.creator}",
+                        style: const TextStyle(
                           fontSize: Sizes.size20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -193,8 +202,8 @@ class VideoPostState extends ConsumerState<VideoPost>
                       ),
                       Gaps.v10,
                       Text(
-                        "This is my room in Bellevue!!!",
-                        style: TextStyle(
+                        widget.videoData.description,
+                        style: const TextStyle(
                           fontSize: Sizes.size16,
                           color: Colors.white,
                         ),
@@ -207,25 +216,27 @@ class VideoPostState extends ConsumerState<VideoPost>
                   right: 10,
                   child: Column(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 25,
                         backgroundColor: Colors.black,
                         foregroundColor: Colors.white,
                         foregroundImage: NetworkImage(
-                            "https://avatars.githubusercontent.com/u/3612017"),
-                        child: Text("JS"),
+                            "https://firebasestorage.googleapis.com/v0/b/speardutch-titok-clone.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media&token=0f722a80-a659-4ad0-86c7-c2e192e07fff"),
+                        child: Text(widget.videoData.creator),
                       ),
                       Gaps.v24,
                       VideoButton(
                         icon: FontAwesomeIcons.solidHeart,
-                        text: S.of(context).likeCount(12126312123123),
+                        text: S.of(context).likeCount(widget.videoData.likes),
                       ),
                       Gaps.v24,
                       GestureDetector(
                         onTap: () => _onCommentsTap(context),
                         child: VideoButton(
                           icon: FontAwesomeIcons.solidComment,
-                          text: S.of(context).commentCount(999999),
+                          text: S.of(context).commentCount(
+                                widget.videoData.comments,
+                              ),
                         ),
                       ),
                       Gaps.v24,

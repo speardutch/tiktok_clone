@@ -4,7 +4,7 @@ import * as admin from "firebase-admin";
 admin.initializeApp();
 
 export const onVideoCreated = functions.firestore
-    .document("vidoes/{videoId}")
+    .document("videos/{videoId}")
     .onCreate(async (snapshot, context) => {
         const spawn = require("child-process-promise").spawn;
         const video = snapshot.data();
