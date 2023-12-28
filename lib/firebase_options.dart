@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -62,15 +65,6 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA79tPI_rN7tyzbjUgVhijNQnAXf-8RLG4',
-    appId: '1:893998821323:ios:6675ba121ce4e83f89904e',
-    messagingSenderId: '893998821323',
-    projectId: 'speardutch-titok-clone',
-    storageBucket: 'speardutch-titok-clone.appspot.com',
-    iosBundleId: 'com.example.tiktokClone',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyA79tPI_rN7tyzbjUgVhijNQnAXf-8RLG4',
     appId: '1:893998821323:ios:6675ba121ce4e83f89904e',
     messagingSenderId: '893998821323',
