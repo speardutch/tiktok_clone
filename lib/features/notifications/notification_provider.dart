@@ -17,11 +17,21 @@ class NotificationProvider extends AsyncNotifier {
   Future<void> initListeners() async {
     final permission = await _messaging.requestPermission();
     if (permission.authorizationStatus == AuthorizationStatus.denied) return;
-    //
+    // Foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage event) {
       print("I just got a message and I'm in the foreground");
       print(event.notification?.title);
     });
+    // Background
+    FirebaseMessaging.onMessageOpenedApp.listen((notification) {
+      print("I just got a message and I'm in the background");
+      print(notification.data["screen"]);
+    });
+    // Terminated
+    final notification = await _messaging.getInitialMessage();
+    if (notification != null) {
+      print(notification.data["screen"]);
+    }
   }
 
   @override
